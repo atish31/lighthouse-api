@@ -5,5 +5,5 @@ app.listen(3000, () => {
   console.log('Server is up');
 });
 
-const getLightHouseScore = require('./controllers/getLighthousescore');
-app.get('/getLightHouseScore', getLightHouseScore.getLightHouseScore);
+const lighthouse = require('./controllers/lighthouse');
+app.get('/getLightHouseScore', lighthouse.getLightHouseScore);
