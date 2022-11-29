@@ -1,8 +1,6 @@
-const fs = require('fs');
-
 function getLightHouseScore(req, res) {
-  console.log('here');
   const { exec } = require('child_process');
+  const readJsonFile = require('../services/read-json-file');
   const url = req.query.url;
   const fileName = 'metrics/metrics.json'
   const lighthouseShellCommand = `lighthouse ${url} --chrome-flags='--headless' --output json --output-path ${fileName}`
@@ -17,21 +15,7 @@ function getLightHouseScore(req, res) {
     if(shellError) {
       console.log(shellError, '||| shellError');
     }
-
-    // Read data from json file
-    fs.readFile('./metrics/metrics.json', 'utf-8', (error, response) => {
-      if(error) {
-        console.log(error, '||| error');
-        res.status(404).send(error);
-        return;
-      }
-      const jsonResponse = JSON.parse(response);
-      const metrics = {
-        'lighthouseVersion': jsonResponse['lighthouseVersion'],
-        'firstContentfulPaint': jsonResponse['audits']['first-contentful-paint'],
-      };
-      res.status(200).send(metrics);
-    });
+    readJsonFile.readJsonFile(res);
   });
 }
 
